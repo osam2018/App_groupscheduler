@@ -5,7 +5,7 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
                 android:id="@+id/parent"
-                tools:context=".MainActivity">
+                tools:context=".PersonalScheduleActivity">
 
     <include
         android:id="@+id/tool_bar"

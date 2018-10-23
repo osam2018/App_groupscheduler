@@ -61,7 +61,7 @@ public class ApplicationTest {
     private CompactCalendarView compactCalendarView;
 
     @Rule
-    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<PersonalScheduleActivity> activityRule = new ActivityTestRule<>(PersonalScheduleActivity.class);
 
     private View mainContent;
     private int onClosedCallCount = 0;

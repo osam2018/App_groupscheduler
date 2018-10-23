@@ -43,7 +43,7 @@ public class CompactCalendarTab extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mainTabView = inflater.inflate(R.layout.main_tab,container,false);
+        View mainTabView = inflater.inflate(R.layout.personal_schedule_tab,container,false);
 
         final List<String> mutableBookings = new ArrayList<>();
 
