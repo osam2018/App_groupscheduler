@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //back to login page or kill app
         }
-        db.collection("group")
+        db.collection("group").whereEqualTo("member."+user.getUid(), true)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        groupScheduleListAdapter.add("hello", "id");
+                                        groupScheduleListAdapter.add(document.getString("name"), document.getId());
                                     }
                             groupScheduleListAdapter.notifyDataSetChanged();
                         } else {
