@@ -1,6 +1,7 @@
 package com.groupscheduler.www;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,10 +10,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,6 +34,8 @@ public class PersonalScheduleActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
+
+
     public PersonalScheduleActivity() {
     }
 
@@ -34,6 +45,7 @@ public class PersonalScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.personal_schedule);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
 
         toolbar = findViewById(R.id.personal_tool_bar);
         setSupportActionBar(toolbar);
@@ -56,11 +68,9 @@ public class PersonalScheduleActivity extends AppCompatActivity {
     }
 
     private void showScheduleDlg() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.schedule_dlg, null);
-        builder.setView(view);
 
+        ScheduleDialog dlg = new ScheduleDialog(PersonalScheduleActivity.this,calendarView);
+        dlg.callFunction();
     }
 
     @Override
