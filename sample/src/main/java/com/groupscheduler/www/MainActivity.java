@@ -1,47 +1,80 @@
 package com.groupscheduler.www;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
-    Button my_schedule_btn;
-    ListView group_schedule_list;
-    HashMap<String,String> group_list_datas;
-    ArrayList<String> group_schedule_arraylist;
-    ArrayAdapter<String> group_schedule_list_adapter;
+    Button myScheduleBtn, createGroupBtn;
+    ListView groupScheduleList;
+    ArrayList<GroupList> groupScheduleArrayList;
+    GroupListAdapter groupScheduleListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        my_schedule_btn = findViewById(R.id.my_schedule_btn);
-        group_schedule_list = findViewById(R.id.group_schedule_list);
+        myScheduleBtn = findViewById(R.id.my_schedule_btn);
+        createGroupBtn = findViewById(R.id.create_group_btn);
+        groupScheduleList = findViewById(R.id.group_schedule_list);
 
+        groupScheduleArrayList = new ArrayList<>();
 
-        group_list_datas = new HashMap<>();
-        group_schedule_arraylist = new ArrayList<>(group_list_datas.keySet());
+        groupScheduleListAdapter = new GroupListAdapter(this, R.layout.grouplist, groupScheduleArrayList);
+        groupScheduleList.setAdapter(groupScheduleListAdapter);
 
-        group_schedule_list_adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,group_schedule_arraylist);
+        groupScheduleList.setOnItemClickListener((parent, v, position, id) -> {
+            Toast.makeText(getApplicationContext(),position + " - After Service... - " + id, Toast.LENGTH_SHORT).show();
+        });
 
-        group_schedule_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        myScheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selected_item = (String)adapterView.getItemAtPosition(i);
-
-                Toast.makeText(getApplicationContext(),selected_item,Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,PersonalScheduleActivity.class));
             }
         });
+        createGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show();
+            }
+        });
+
+    }
+    void show()
+    {
+        final EditText editText = new EditText(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Create Group");
+        builder.setMessage("AlertDialog Content");
+        builder.setView(editText);
+        builder.setPositiveButton("예",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        groupScheduleListAdapter.add(editText.getText().toString(),"aaaaaa");
+                        Toast.makeText(getApplicationContext(),editText.getText() + "예를 선택했습니다.",Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),editText.getText() + "아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.show();
     }
 }

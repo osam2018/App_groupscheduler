@@ -21,4 +21,11 @@
         android:theme="@style/Widget.AppCompat.ListView"
         android:textSize="30sp"
         android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/create_group_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Group"/>
+
 </LinearLayout>
