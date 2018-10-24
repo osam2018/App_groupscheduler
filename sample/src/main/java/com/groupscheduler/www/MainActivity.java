@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     void show()
     {
         final EditText editText = new EditText(this);
+        editText.setSingleLine(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create Group");

@@ -1,11 +1,14 @@
 package com.groupscheduler.www;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +56,10 @@ public class PersonalScheduleActivity extends AppCompatActivity {
     }
 
     private void showScheduleDlg() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.schedule_dlg, null);
+        builder.setView(view);
 
     }
 
@@ -81,6 +88,6 @@ public class PersonalScheduleActivity extends AppCompatActivity {
 
     private void logout() {
         firebaseAuth.signOut();
-        finish();
+        System.exit(0);
     }
 }
