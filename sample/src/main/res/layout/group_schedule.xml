@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical"
-                android:id="@+id/personal_parent"
-                tools:context=".PersonalScheduleActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:id="@+id/group_parent"
+    tools:context=".GroupScheduleActivity">
 
     <include
-        android:id="@+id/personal_tool_bar"
+        android:id="@+id/group_tool_bar"
         layout="@layout/tool_bar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/personal_calendar_view"
+        android:id="@+id/group_calendar_view"
         android:layout_width="fill_parent"
         android:layout_height="250dp"
         app:compactCalendarTargetHeight="250dp"
