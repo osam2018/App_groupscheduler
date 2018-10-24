@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -24,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        /*firebase init*/
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+        /* firebase end */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -34,6 +51,29 @@ public class MainActivity extends AppCompatActivity {
         groupScheduleArrayList = new ArrayList<>();
 
         groupScheduleListAdapter = new GroupListAdapter(this, R.layout.grouplist, groupScheduleArrayList);
+        /*group list retrieve*/
+        String uid;
+        if (user != null) {
+            uid =user.getUid();
+        } else {
+            //back to login page or kill app
+        }
+        db.collection("group")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        groupScheduleListAdapter.add("hello", "id");
+                                    }
+                            groupScheduleListAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+        /*retrieve end*/
         groupScheduleList.setAdapter(groupScheduleListAdapter);
 
         groupScheduleList.setOnItemClickListener((parent, v, position, id) -> {

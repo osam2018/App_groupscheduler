@@ -49,12 +49,11 @@ public class GroupListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public View getView(int position, View v, ViewGroup parent) {
         GroupListHolder holder;
 
-        if(convertView==null){
-            convertView=inflater.inflate(layout,parent,false);
+        if(v==null){
+            v=inflater.inflate(layout,parent,false);
 
             holder = new GroupListHolder();
 
@@ -71,7 +70,7 @@ public class GroupListAdapter extends BaseAdapter {
 
 
 
-        return convertView;
+        return v;
     }
 
     private class GroupListHolder {
