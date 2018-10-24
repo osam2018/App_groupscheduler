@@ -33,14 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        /*firebase init*/
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
-
-        /* firebase end */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -51,29 +44,7 @@ public class MainActivity extends AppCompatActivity {
         groupScheduleArrayList = new ArrayList<>();
 
         groupScheduleListAdapter = new GroupListAdapter(this, R.layout.grouplist, groupScheduleArrayList);
-        /*group list retrieve*/
-        String uid;
-        if (user != null) {
-            uid =user.getUid();
-        } else {
-            //back to login page or kill app
-        }
-        db.collection("group").whereEqualTo("member."+user.getUid(), true)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        groupScheduleListAdapter.add(document.getString("name"), document.getId());
-                                    }
-                            groupScheduleListAdapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-        /*retrieve end*/
+
         groupScheduleList.setAdapter(groupScheduleListAdapter);
 
         groupScheduleList.setOnItemClickListener((parent, v, position, id) -> {
@@ -94,6 +65,41 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*firebase init*/
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /* firebase end */
+
+        /*group list retrieve*/
+        String uid;
+        if (user != null) {
+            uid =user.getUid();
+        } else {
+            //back to login page or kill app
+        }
+        db.collection("group").whereEqualTo("member."+user.getUid(), true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                groupScheduleListAdapter.add(document.getString("name"), document.getId());
+                            }
+                            groupScheduleListAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+        /*retrieve end*/
+    }
+
     void show()
     {
         final EditText editText = new EditText(this);
