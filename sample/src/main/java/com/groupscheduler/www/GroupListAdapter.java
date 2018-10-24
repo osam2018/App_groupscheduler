@@ -1,6 +1,7 @@
 package com.groupscheduler.www;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,12 @@ import java.util.ArrayList;
 
 public class GroupListAdapter extends BaseAdapter {
 
-    private LayoutInflater inflater;
+    private Context mContext;
     private ArrayList<GroupList> data;
-    private int layout;
 
-    GroupListAdapter(Context context, int layout, ArrayList<GroupList> data){
-        this.inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.layout=layout;
-        this.data=data;
+    GroupListAdapter(Context context, ArrayList<GroupList> data){
+        this.mContext = context;
+        this.data = data;
     }
 
     public void add(String title, String groupId){
@@ -30,7 +29,7 @@ public class GroupListAdapter extends BaseAdapter {
     }
 
     private void dataChange() {
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -51,9 +50,11 @@ public class GroupListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View v, ViewGroup parent) {
         GroupListHolder holder;
+        LayoutInflater inflater;
 
         if(v==null){
-            v=inflater.inflate(layout,parent,false);
+            inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v=inflater.inflate(R.layout.grouplist, parent,false);
 
             holder = new GroupListHolder();
 

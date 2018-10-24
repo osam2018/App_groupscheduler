@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         /*firebase init*/
+        groupScheduleArrayList.clear();
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

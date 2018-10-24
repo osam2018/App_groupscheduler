@@ -1,27 +1,29 @@
 package com.groupscheduler.www;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class PersonalScheduleActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private ViewPager pager;
-    private ViewPagerAdapter adapter;
-    private SlidingTabLayout tabs;
-    private CharSequence titles[]= {"Home","Events"};
-    private int numberOfTabs = 2;
 
+    CompactCalendarView calendarView;
 
     FirebaseAuth firebaseAuth;
+
+    public PersonalScheduleActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +32,28 @@ public class PersonalScheduleActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        toolbar = findViewById(R.id.tool_bar);
+        toolbar = findViewById(R.id.personal_tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, numberOfTabs);
-
-        // Assigning ViewPager View and setting the adapter
-        pager = findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-        // Assiging the Sliding Tab Layout View
-        tabs = findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+        calendarView = findViewById(R.id.personal_calendar_view);
+        calendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.black);
+            public void onDayClick(Date dateClicked) {
+                showScheduleDlg();
+                // TODO 노성훈 짬맞아라.
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+
             }
         });
+    }
 
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
+    private void showScheduleDlg() {
+
     }
 
     @Override
@@ -78,19 +77,6 @@ public class PersonalScheduleActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch(keyCode){
-            case KeyEvent.KEYCODE_BACK:
-                logout();
-                break;
-                default:
-                    break;
-        }
-
-        return super.onKeyDown(keyCode, event);
     }
 
     private void logout() {
