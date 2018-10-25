@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<GroupList> groupScheduleArrayList;
     GroupListAdapter groupScheduleListAdapter;
 
-    FirebaseFirestore db;
-    FirebaseUser user;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -84,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
         /*firebase init*/
         groupScheduleArrayList.clear();
 
-        db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         /* firebase end */
 
         /*group list retrieve*/
