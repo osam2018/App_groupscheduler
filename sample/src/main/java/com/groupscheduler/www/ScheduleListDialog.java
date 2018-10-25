@@ -2,6 +2,8 @@ package com.groupscheduler.www;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
@@ -10,11 +12,19 @@ import android.widget.ListView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class ScheduleListDialog {
 
@@ -70,7 +80,7 @@ public class ScheduleListDialog {
         for (Event e : calendarView.getEvents(date.getTime())) {
             strColor = String.format("#%06X", 0xFFFFFF & e.getColor());
             Log.d("SLD", e.getColor()+"");
-            scheduleListDialogListAdatper.add(dateFormatForDisplaying.format(e.getTimeInMillis()),(String)e.getData(),strColor);
+            scheduleListDialogListAdatper.add(e.getTimeInMillis(),(String)e.getData(),strColor);
         }
 
         scheduleListDialogListAdatper.notifyDataSetChanged();
@@ -84,4 +94,5 @@ public class ScheduleListDialog {
             }
         });
     }
+
 }

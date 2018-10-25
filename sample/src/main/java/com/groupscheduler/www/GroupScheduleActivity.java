@@ -57,7 +57,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.group_schedule);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        // TODO 노짬
         Intent i = getIntent();
         gid = i.getStringExtra("gid");
 
@@ -70,7 +69,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         groupInviteListAdatper = new GroupInviteListAdatper(this, groupInviteArrayList);
         groupInviteListView.setAdapter(groupInviteListAdatper);
 
-
+        /*
         // TODO groupInviteListView.setOnItemClickListener 만들지 마셈. 내부에서 이벤트 받는게 있어서 어짜피 처리안됨.
         groupInviteListAdatper.add("uid","example@naver.com",false);
         groupInviteListAdatper.add("uid2","examples@naver.com",true);
@@ -86,7 +85,8 @@ public class GroupScheduleActivity extends AppCompatActivity {
         groupInviteListAdatper.add("uid365","exampless@naver.com",false);
         groupInviteListAdatper.notifyDataSetChanged();
         // TODO This is Samples. Please Delete it.
-
+        */
+        firebaseGroupInviteMemberLoad(gid);
         calendarView = findViewById(R.id.group_calendar_view);
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -106,7 +106,10 @@ public class GroupScheduleActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        Intent i = getIntent();
+        gid = i.getStringExtra("gid");
         firebaseGroupEventLoad(gid);
+        firebaseGroupInviteMemberLoad(gid);
         toolbar.setTitle(dateFormatForMonth.format(calendarView.getFirstDayOfCurrentMonth()));
     }
     private void firebaseEventLoad(String userid){
@@ -158,7 +161,35 @@ public class GroupScheduleActivity extends AppCompatActivity {
         });
     }
 
+    private void firebaseGroupInviteMemberLoad(String groupid){
+        db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("group").document(groupid);
 
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //Map<String, Object> userData = (Map<String,Object>)document.get("uids");
+                        Map<String, Boolean> td = (HashMap<String,Boolean>)document.get("member");
+                        Set<String> userIds = td.keySet();
+                        groupInviteListAdatper.add("COpYdHrrN1ZvMdzIidBXwNbI1Bw1","aaa@aaa.com ",userIds.contains("COpYdHrrN1ZvMdzIidBXwNbI1Bw1"));
+                        groupInviteListAdatper.add("eclJYkcgCjZKZp0izsjoO6q0HK52","bbb@bbb.com ",userIds.contains("eclJYkcgCjZKZp0izsjoO6q0HK52"));
+                        groupInviteListAdatper.add("k6bVhtPpb6SSOhUJMwxVxi8BFTI2","ccc@ccc.com ",userIds.contains("k6bVhtPpb6SSOhUJMwxVxi8BFTI2"));
+                        groupInviteListAdatper.add("yDM6FL8CoEcRDVh40CpFQNoebVq2","ddd@ddd.com ",userIds.contains("yDM6FL8CoEcRDVh40CpFQNoebVq2"));
+                        groupInviteListAdatper.add("s3PYC24SU2QkeN0WYd7dB6XKQPj1","eee@eee.com ",userIds.contains("s3PYC24SU2QkeN0WYd7dB6XKQPj1"));
+                    } else {
+                        Toast.makeText(getApplicationContext(),"그룹이 존재하지 않습니다..",Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
