@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/schedule_listView_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#aaff0000">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/schedule_listView_description_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:text="text"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#22000000" />
+
+            <TextView
+                android:id="@+id/schedule_listView_timestamp_tv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="timestamp"
+                android:paddingEnd="10dp"
+                android:gravity="right"
+                android:textSize="15sp"
+                android:textColor="#ffffff"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/schedule_listView_del_btn"
+            android:layout_width="wrap_content"
+            android:background="#ffffff"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="DELETE"
+            android:textColor="#ff0000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#22000000" />
+
+</LinearLayout>

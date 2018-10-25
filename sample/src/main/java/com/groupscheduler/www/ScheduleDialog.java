@@ -3,11 +3,7 @@ package com.groupscheduler.www;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -23,10 +19,6 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class ScheduleDialog {
 
@@ -123,7 +115,6 @@ public class ScheduleDialog {
 
                     // TODO 여기가 젤 중요해 Ang?  @USE color_code_str, timestamp_str,  description_str
 
-                    Log.d("SD", color_code_str+" ");
                     Event e = new Event(Color.parseColor(color_code_str), timestamp, description_str);
                     calendarView.addEvent(e);
 

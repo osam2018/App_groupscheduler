@@ -72,9 +72,11 @@ public class PersonalScheduleActivity extends AppCompatActivity {
             @Override
             public void onDayClick(Date dateClicked) {
                 currentCalender.setTime(dateClicked);
-                showScheduleDlg(currentCalender);
-                // TODO 노성훈 짬맞아라.
-
+                if(calendarView.getEvents(dateClicked).isEmpty()){
+                    showScheduleDlg(currentCalender);
+                }else {
+                    showScheduleListDlg(currentCalender);
+                }
                 calendarView.invalidate();
             }
 
@@ -94,6 +96,15 @@ public class PersonalScheduleActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.personal_tool_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+    }
+    private void showScheduleDlg(Calendar date) {
+        ScheduleDialog dlg = new ScheduleDialog(PersonalScheduleActivity.this, calendarView, date);
+        dlg.execute();
+    }
+
+    private void showScheduleListDlg(Calendar date) {
+        ScheduleListDialog dlg = new ScheduleListDialog(PersonalScheduleActivity.this, calendarView, date);
+        dlg.execute();
     }
 
     @Override
@@ -127,10 +138,6 @@ public class PersonalScheduleActivity extends AppCompatActivity {
                 });
     }
 
-    private void showScheduleDlg(Calendar date) {
-        ScheduleDialog dlg = new ScheduleDialog(PersonalScheduleActivity.this, calendarView, date);
-        dlg.execute();
-    }
 
 /*
 
