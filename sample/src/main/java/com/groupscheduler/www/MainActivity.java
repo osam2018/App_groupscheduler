@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
     ListView groupScheduleList;
     ArrayList<GroupList> groupScheduleArrayList;
     GroupListAdapter groupScheduleListAdapter;
-
-    FirebaseFirestore db;
-    FirebaseUser user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
         /*firebase init*/
         groupScheduleArrayList.clear();
 
-        db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         /* firebase end */
 
         /*group list retrieve*/
