@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,12 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
         groupScheduleArrayList = new ArrayList<>();
 
-        groupScheduleListAdapter = new GroupListAdapter(this, R.layout.grouplist, groupScheduleArrayList);
-
+        groupScheduleListAdapter = new GroupListAdapter(this, groupScheduleArrayList);
         groupScheduleList.setAdapter(groupScheduleListAdapter);
 
         groupScheduleList.setOnItemClickListener((parent, v, position, id) -> {
-            Toast.makeText(getApplicationContext(),position + " - After Service... - " + id, Toast.LENGTH_SHORT).show();
+
+            Intent i = new Intent(MainActivity.this,GroupScheduleActivity.class);
+            i.putExtra("gid",groupScheduleArrayList.get(position).getGroupId());
+            startActivity(i);
+            // TODO 노짬
         });
 
         myScheduleBtn.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         final EditText editText = new EditText(this);
+        editText.setSingleLine(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create Group");
@@ -124,16 +129,30 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("예",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        groupScheduleListAdapter.add(editText.getText().toString(),"aaaaaa");
-                        Toast.makeText(getApplicationContext(),editText.getText() + "예를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        if(editText.getText().toString().replace(" ","").equals("")) {
+                            Toast.makeText(MainActivity.this,"Please Insert Group Title",Toast.LENGTH_SHORT).show();
+                        }else {
+                            groupScheduleListAdapter.add(editText.getText().toString(), "aaaaaa");
+                            groupScheduleListAdapter.notifyDataSetChanged();
+                        }
                     }
-                });
-        builder.setNegativeButton("아니오",
+                }).setNegativeButton("아니오",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),editText.getText() + "아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), editText.getText() + "아니오를 선택했습니다.", Toast.LENGTH_LONG).show();
                     }
                 });
         builder.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                finish();
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
