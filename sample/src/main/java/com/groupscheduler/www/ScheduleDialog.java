@@ -7,6 +7,7 @@ import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,15 +21,27 @@ import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.Date;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
+import static io.opencensus.common.Timestamp.fromMillis;
 
 public class ScheduleDialog {
+    FirebaseFirestore db;
+    FirebaseUser user;
 
     private Context context;
     Dialog dialog;
@@ -124,8 +137,9 @@ public class ScheduleDialog {
                     // TODO 여기가 젤 중요해 Ang?  @USE color_code_str, timestamp_str,  description_str
 
                     Log.d("SD", color_code_str+" ");
-                    Event e = new Event(Color.parseColor(color_code_str), timestamp, description_str);
-                    calendarView.addEvent(e);
+                    createfEventToFirebase(color_code_str, timestamp, description_str);
+                    //Event e = new Event(Color.parseColor(color_code_str), timestamp, description_str);
+                    //calendarView.addEvent(e);
 
                     dialog.dismiss();
                 }
@@ -179,5 +193,31 @@ public class ScheduleDialog {
                 }
             }
         });
+    }
+    private void createfEventToFirebase(String colorcode, long timestamp, String spec){
+
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        Map<String, Object> eventData = new HashMap<>();
+        eventData.put("color", colorcode);
+        eventData.put("eventtime", new java.util.Date(timestamp));
+        eventData.put("spec", spec);
+        eventData.put("uid", user.getUid());
+
+        db.collection("events").add(eventData)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Event e = new Event(Color.parseColor(colorcode), timestamp, spec);
+                        calendarView.addEvent(e);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+                        }
+                    });
     }
 }
