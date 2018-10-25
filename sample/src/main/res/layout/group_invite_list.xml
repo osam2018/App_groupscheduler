@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:text="Human"
+            android:textSize="25sp"
+            android:textColor="#000000"/>
+
+        <ToggleButton
+            android:id="@+id/invite_toggle_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_gravity="center_vertical"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_marginEnd="5dp"
+            android:textOff="Invite"
+            android:background="#aaf00f00"
+            android:textOn="Invited"
+            android:checked="false"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="2dp"
+        android:background="#000000" />
+
+</LinearLayout>

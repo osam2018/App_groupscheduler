@@ -1,7 +1,6 @@
 package com.groupscheduler.www;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,7 @@ public class GroupListAdapter extends BaseAdapter {
 
         if(v==null){
             inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v=inflater.inflate(R.layout.grouplist, parent,false);
+            v=inflater.inflate(R.layout.group_list, parent,false);
 
             holder = new GroupListHolder();
 

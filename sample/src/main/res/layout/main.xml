@@ -9,23 +9,81 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="My Schedule"
-        android:theme="@style/Widget.AppCompat.Button"
+        style="@style/Widget.MaterialComponents.Button"
         android:textSize="30sp"
         android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#110f0ff0"
+            android:layout_weight="15">
 
-    <ListView
-        android:id="@+id/group_schedule_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"
-        android:theme="@style/Widget.AppCompat.ListView"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:background="#aa000000"/>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#aa000000"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Group List"
+                    style="@style/Platform.MaterialComponents"
+                    android:textSize="30sp"
+                    android:textColor="#aa0000f0"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="2dp"
+                    android:background="#000000" />
+
+
+                <ListView
+                    android:id="@+id/group_schedule_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="9"
+                    android:theme="@style/Widget.AppCompat.ListView"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#aa000000"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0"
+                android:background="#aa000000"/>
+
+        </LinearLayout>
     <Button
         android:id="@+id/create_group_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Group"/>
+        android:layout_margin="10dp"
+        android:background="#ccf0af3f"
+        android:text="Create Group"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="25sp"/>
 
 </LinearLayout>
