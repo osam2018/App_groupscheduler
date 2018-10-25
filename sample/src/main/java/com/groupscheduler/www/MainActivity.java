@@ -7,7 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,11 +56,14 @@ public class MainActivity extends AppCompatActivity {
         groupScheduleArrayList = new ArrayList<>();
 
         groupScheduleListAdapter = new GroupListAdapter(this, groupScheduleArrayList);
-
         groupScheduleList.setAdapter(groupScheduleListAdapter);
 
         groupScheduleList.setOnItemClickListener((parent, v, position, id) -> {
-            Toast.makeText(getApplicationContext(),position + " - After Service... - " + id, Toast.LENGTH_SHORT).show();
+
+            Intent i = new Intent(MainActivity.this,GroupScheduleActivity.class);
+            i.putExtra("gid",groupScheduleArrayList.get(position).getGroupId());
+            startActivity(i);
+            // TODO 노짬
         });
 
         myScheduleBtn.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         final EditText editText = new EditText(this);
+        editText.setSingleLine(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create Group");
@@ -158,5 +166,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                finish();
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
