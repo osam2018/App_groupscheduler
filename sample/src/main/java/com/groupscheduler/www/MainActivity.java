@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Create Group");
         builder.setMessage("AlertDialog Content");
         builder.setView(editText);
-        builder.setPositiveButton("예",
+        builder.setPositiveButton("Create",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(editText.getText().toString().replace(" ","").equals("")) {
@@ -82,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
                             groupScheduleListAdapter.notifyDataSetChanged();
                         }
                     }
-                }).setNegativeButton("아니오",
+                }).setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), editText.getText() + "아니오를 선택했습니다.", Toast.LENGTH_LONG).show();
+
                     }
                 });
         builder.show();
