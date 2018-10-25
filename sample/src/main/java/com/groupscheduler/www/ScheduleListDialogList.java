@@ -1,11 +1,11 @@
 package com.groupscheduler.www;
 
 public class ScheduleListDialogList {
-    private String timestamp;
+    private long timestamp;
     private String description;
     private String color_code;
 
-    ScheduleListDialogList(String timestamp, String description, String color_code){
+    ScheduleListDialogList(long timestamp, String description, String color_code){
         this.description = description;
         this.timestamp = timestamp;
         this.color_code = color_code;
@@ -15,7 +15,7 @@ public class ScheduleListDialogList {
         return description;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -27,7 +27,7 @@ public class ScheduleListDialogList {
         this.description = description;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
