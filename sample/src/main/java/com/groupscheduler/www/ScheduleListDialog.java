@@ -59,7 +59,7 @@ public class ScheduleListDialog {
         scheduleListView = dialog.findViewById(R.id.psn_schedule_listView);
 
         scheduleListDialogListArrayList = new ArrayList<>();
-        scheduleListDialogListAdatper = new ScheduleListDialogListAdatper(context, scheduleListDialogListArrayList);
+        scheduleListDialogListAdatper = new ScheduleListDialogListAdatper(context, scheduleListDialogListArrayList, dialog);
         scheduleListView.setAdapter(scheduleListDialogListAdatper);
 
 

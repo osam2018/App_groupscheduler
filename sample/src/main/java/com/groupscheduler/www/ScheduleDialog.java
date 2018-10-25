@@ -3,9 +3,6 @@ package com.groupscheduler.www;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -27,17 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.Date;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static android.content.ContentValues.TAG;
-import static io.opencensus.common.Timestamp.fromMillis;
 
 public class ScheduleDialog {
     FirebaseFirestore db;

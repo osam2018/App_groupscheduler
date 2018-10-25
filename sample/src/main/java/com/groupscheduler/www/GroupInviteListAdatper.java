@@ -73,6 +73,7 @@ public class GroupInviteListAdatper extends BaseAdapter {
         GroupInviteList list = data.get(position);
 
         holder.emailHolder.setText(list.getEmail());
+        holder.inviteStateHolder.setTag(position);
         if(list.isMember()) {
             holder.inviteStateHolder.setChecked(true);
             holder.inviteStateHolder.setBackgroundColor(Color.parseColor("#aa00b248"));
@@ -89,9 +90,13 @@ public class GroupInviteListAdatper extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                   holder.inviteStateHolder.setEnabled(false);
-                   holder.inviteStateHolder.setBackgroundColor(Color.parseColor("#aa00b248"));
+                   buttonView.setEnabled(false);
+                   buttonView.setBackgroundColor(Color.parseColor("#aa00b248"));
+                   int position = (Integer)buttonView.getTag();
+                   data.get(position).setMember(true);
                    holder.emailHolder.setBackgroundColor(Color.parseColor("#2200f044"));
+
+                   // TODO invite
                 }
             }
         });

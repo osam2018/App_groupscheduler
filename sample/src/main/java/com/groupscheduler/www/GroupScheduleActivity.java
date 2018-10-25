@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -26,12 +25,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -77,6 +75,15 @@ public class GroupScheduleActivity extends AppCompatActivity {
         groupInviteListAdatper.add("uid","example@naver.com",false);
         groupInviteListAdatper.add("uid2","examples@naver.com",true);
         groupInviteListAdatper.add("uid3","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid4","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid35","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid36","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid355","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid63","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid33","exampless@naver.com",true);
+        groupInviteListAdatper.add("uid13","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid343","exampless@naver.com",false);
+        groupInviteListAdatper.add("uid365","exampless@naver.com",false);
         groupInviteListAdatper.notifyDataSetChanged();
         // TODO This is Samples. Please Delete it.
 
@@ -160,7 +167,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
+        if (id == R.id.action_group_logout) {
             logout();
             return true;
         }
@@ -170,8 +177,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
     private void logout() {
         firebaseAuth.signOut();
-        moveTaskToBack(true);
-        finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        finishAffinity();
     }
 }

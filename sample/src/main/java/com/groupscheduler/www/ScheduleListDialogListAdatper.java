@@ -1,8 +1,8 @@
 package com.groupscheduler.www;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +16,20 @@ import java.util.ArrayList;
 public class ScheduleListDialogListAdatper extends BaseAdapter {
     private Context mContext;
     private ArrayList<ScheduleListDialogList> data;
+    private Dialog dialog;
 
-    ScheduleListDialogListAdatper(Context context, ArrayList<ScheduleListDialogList> data){
+    ScheduleListDialogListAdatper(Context context, ArrayList<ScheduleListDialogList> data, Dialog dialog){
         this.mContext = context;
         this.data = data;
+        this.dialog = dialog;
     }
 
     public void add(String timestamp, String description, String color_code){
         data.add(new ScheduleListDialogList(timestamp,description,color_code));
     }
 
-    public void remove(int positiion){
-        data.remove(positiion);
+    public void remove(int position){
+        data.remove(position);
         dataChange();
     }
 
@@ -73,18 +75,25 @@ public class ScheduleListDialogListAdatper extends BaseAdapter {
 
         ScheduleListDialogList list = data.get(position);
 
-        Log.d("SLDA", list.getColor_code()+"");
         holder.descriptionHolder.setText(list.getDescription());
         holder.timestampHolder.setText(list.getTimestamp());
-        Log.d("SLDA", Color.parseColor(list.getColor_code())+"");
 
         holder.scheduleListHolder.setBackgroundColor(Color.parseColor(list.getColor_code()));
 
+        holder.delBtnHolder.setTag(position);
         holder.delBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO 여기에 리스트 삭제 구문~~
                 // notifyDataSetChanged();
+
+
+
+                remove((Integer) holder.delBtnHolder.getTag());
+
+                if(data.isEmpty()) {
+                    dialog.dismiss();
+                }
             }
         });
 
