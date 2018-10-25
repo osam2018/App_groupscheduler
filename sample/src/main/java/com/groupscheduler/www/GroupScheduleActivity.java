@@ -1,10 +1,12 @@
 package com.groupscheduler.www;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,8 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
+    String gid;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,8 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         // TODO 노짬
+        Intent i = getIntent();
+        gid = i.getStringExtra("gid");
 
         toolbar = findViewById(R.id.group_tool_bar);
         setSupportActionBar(toolbar);

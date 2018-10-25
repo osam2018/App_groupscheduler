@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
         groupScheduleList.setAdapter(groupScheduleListAdapter);
 
         groupScheduleList.setOnItemClickListener((parent, v, position, id) -> {
-            startActivity(new Intent(MainActivity.this,GroupScheduleActivity.class));
+
+            Intent i = new Intent(MainActivity.this,GroupScheduleActivity.class);
+            i.putExtra("gid",groupScheduleArrayList.get(position).getGroupId());
+            startActivity(i);
             // TODO 노짬
         });
 
