@@ -3,6 +3,11 @@ package com.groupscheduler.www;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -10,13 +15,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class ScheduleDialog {
 
@@ -32,17 +42,19 @@ public class ScheduleDialog {
     LinearLayout psn_dlg_layout;
     ArrayList<RadioButton> radio_array;
     LinearLayout.LayoutParams params;
+    Calendar date;
 
     CompactCalendarView calendarView;
 
-    public ScheduleDialog(Context context, CompactCalendarView calendarView) {
+    public ScheduleDialog(Context context, CompactCalendarView calendarView, Calendar date) {
         this.calendarView = calendarView;
         this.context = context;
         this.dialog = new Dialog(context);
+        this.date = date;
     }
 
     // 호출할 다이얼로그 함수를 정의한다.
-    public void callFunction() {
+    public void execute() {
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
         dialog = new Dialog(context);
@@ -84,14 +96,39 @@ public class ScheduleDialog {
 
         psn_save_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                String color_code_str = null, timestamp_str = null, description_str;
+                long timestamp;
+                Calendar add_date = Calendar.getInstance();
+
                 if(psn_title_et.getText().toString().replace(" ","").equals("")){
-
+                    Toast.makeText(context,"Please type description.",Toast.LENGTH_SHORT).show();
                 }else {
+                    for(RadioButton radioButton : radio_array){
+                        if(psn_radio_color_group.getCheckedRadioButtonId() == radioButton.getId()){
+                            color_code_str = radioButton.getText().toString();
+                        }
+                    }
 
-                    // TODO 여기가 젤 중요해
-                    //calendarView.addEvent(new Event(radio_array.));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        add_date.set(date.get(Calendar.YEAR),date.get(Calendar.MONTH),date.get(Calendar.DAY_OF_MONTH),
+                                psn_timePicker.getHour(),psn_timePicker.getMinute());
+                    }else{
+                        add_date.set(date.get(Calendar.YEAR),date.get(Calendar.MONTH),date.get(Calendar.DAY_OF_MONTH),
+                                psn_timePicker.getCurrentHour(),psn_timePicker.getCurrentMinute());
+                    }
+                    timestamp = add_date.getTimeInMillis();
+                    timestamp_str = String.valueOf(timestamp);
+                    description_str = psn_title_et.getText().toString();
+
+                    // TODO 여기가 젤 중요해 Ang?  @USE color_code_str, timestamp_str,  description_str
+
+                    Log.d("SD", color_code_str+" ");
+                    Event e = new Event(Color.parseColor(color_code_str), timestamp, description_str);
+                    calendarView.addEvent(e);
+
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
         psn_cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -105,43 +142,35 @@ public class ScheduleDialog {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 for (RadioButton radio : radio_array) {
                     radio.setLayoutParams(params);
-                    radio.setText("");
                 }
                 params.weight = 1.0f;
 
                 switch (checkedId){
                     case R.id.psn_radio_red:
-                        psn_radio_red.setText(R.string.color_selected);
                         psn_radio_red.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aaff0000"));
                         break;
                     case R.id.psn_radio_orange:
-                        psn_radio_orange.setText(R.string.color_selected);
                         psn_radio_orange.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aaff8000"));
                         break;
                     case R.id.psn_radio_yellow:
-                        psn_radio_yellow.setText(R.string.color_selected);
                         psn_radio_yellow.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aaffff00"));
                         break;
                     case R.id.psn_radio_green:
-                        psn_radio_green.setText(R.string.color_selected);
                         psn_radio_green.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aa00ff00"));
                         break;
                     case R.id.psn_radio_blue:
-                        psn_radio_blue.setText(R.string.color_selected);
                         psn_radio_blue.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aa0000ff"));
                         break;
                     case R.id.psn_radio_navy:
-                        psn_radio_navy.setText(R.string.color_selected);
                         psn_radio_navy.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aa000080"));
                         break;
                     case R.id.psn_radio_purple:
-                        psn_radio_purple.setText(R.string.color_selected);
                         psn_radio_purple.setLayoutParams(params);
                         psn_dlg_layout.setBackgroundColor(Color.parseColor("#aa800080"));
                         break;
