@@ -130,8 +130,28 @@ public class MainActivity extends AppCompatActivity {
                         if(editText.getText().toString().replace(" ","").equals("")) {
                             Toast.makeText(MainActivity.this,"Please Insert Group Title",Toast.LENGTH_SHORT).show();
                         }else {
-                            groupScheduleListAdapter.add(editText.getText().toString(), "aaaaaa");
-                            groupScheduleListAdapter.notifyDataSetChanged();
+                            Map<String, Object> groupData = new HashMap<>();
+                            groupData.put("name", editText.getText().toString());
+                            Map<String, Object> nestedData = new HashMap<>();
+                            nestedData.put(user.getUid(), true);
+
+                            groupData.put("member", nestedData);
+
+                            db.collection("group").add(groupData)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            groupScheduleListAdapter.add(editText.getText().toString(), documentReference.getId());
+                                            groupScheduleListAdapter.notifyDataSetChanged();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
                         }
                     }
                 }).setNegativeButton("아니오",
