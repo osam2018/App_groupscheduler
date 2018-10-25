@@ -66,7 +66,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
         groupInviteListView = findViewById(R.id.group_invite_list);
         groupInviteArrayList = new ArrayList<>();
-        groupInviteListAdatper = new GroupInviteListAdatper(this, groupInviteArrayList);
+        groupInviteListAdatper = new GroupInviteListAdatper(this, groupInviteArrayList, gid, calendarView);
         groupInviteListView.setAdapter(groupInviteListAdatper);
 
         /*
@@ -86,7 +86,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         groupInviteListAdatper.notifyDataSetChanged();
         // TODO This is Samples. Please Delete it.
         */
-        firebaseGroupInviteMemberLoad(gid);
+        //firebaseGroupInviteMemberLoad(gid);
         calendarView = findViewById(R.id.group_calendar_view);
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -105,9 +105,16 @@ public class GroupScheduleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         Intent i = getIntent();
         gid = i.getStringExtra("gid");
+
+        //test
+        groupInviteArrayList = new ArrayList<>();
+        groupInviteListAdatper = new GroupInviteListAdatper(this, groupInviteArrayList, gid, calendarView);
+        groupInviteListView.setAdapter(groupInviteListAdatper);
+
+
+
         firebaseGroupEventLoad(gid);
         firebaseGroupInviteMemberLoad(gid);
         toolbar.setTitle(dateFormatForMonth.format(calendarView.getFirstDayOfCurrentMonth()));
@@ -128,6 +135,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
                                 events.add(new Event(Color.parseColor(document.getString("color")), document.getDate("eventtime").getTime(),document.getString("spec")));
                             }
                             calendarView.addEvents(events);
+
                         } else {
                             Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
                         }
@@ -135,7 +143,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 });
     }
 
-    private void firebaseGroupEventLoad(String groupid){
+    void firebaseGroupEventLoad(String groupid){
         db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("group").document(groupid);
 
@@ -179,6 +187,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
                         groupInviteListAdatper.add("k6bVhtPpb6SSOhUJMwxVxi8BFTI2","ccc@ccc.com ",userIds.contains("k6bVhtPpb6SSOhUJMwxVxi8BFTI2"));
                         groupInviteListAdatper.add("yDM6FL8CoEcRDVh40CpFQNoebVq2","ddd@ddd.com ",userIds.contains("yDM6FL8CoEcRDVh40CpFQNoebVq2"));
                         groupInviteListAdatper.add("s3PYC24SU2QkeN0WYd7dB6XKQPj1","eee@eee.com ",userIds.contains("s3PYC24SU2QkeN0WYd7dB6XKQPj1"));
+                        groupInviteListAdatper.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getApplicationContext(),"그룹이 존재하지 않습니다..",Toast.LENGTH_LONG).show();
                     }
