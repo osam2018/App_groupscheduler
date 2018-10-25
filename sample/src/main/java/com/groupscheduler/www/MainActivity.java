@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         groupScheduleArrayList = new ArrayList<>();
 
-        groupScheduleListAdapter = new GroupListAdapter(this, R.layout.grouplist, groupScheduleArrayList);
+        groupScheduleListAdapter = new GroupListAdapter(this, groupScheduleArrayList);
 
         groupScheduleList.setAdapter(groupScheduleListAdapter);
 
@@ -124,14 +124,37 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("예",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        groupScheduleListAdapter.add(editText.getText().toString(),"aaaaaa");
-                        Toast.makeText(getApplicationContext(),editText.getText() + "예를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        if(editText.getText().toString().replace(" ","").equals("")) {
+                            Toast.makeText(MainActivity.this,"Please Insert Group Title",Toast.LENGTH_SHORT).show();
+                        }else {
+                            Map<String, Object> groupData = new HashMap<>();
+                            groupData.put("name", editText.getText().toString());
+                            Map<String, Object> nestedData = new HashMap<>();
+                            nestedData.put(user.getUid(), true);
+
+                            groupData.put("member", nestedData);
+
+                            db.collection("group").add(groupData)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            groupScheduleListAdapter.add(editText.getText().toString(), documentReference.getId());
+                                            groupScheduleListAdapter.notifyDataSetChanged();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(),"오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                        }
                     }
-                });
-        builder.setNegativeButton("아니오",
+                }).setNegativeButton("아니오",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),editText.getText() + "아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), editText.getText() + "아니오를 선택했습니다.", Toast.LENGTH_LONG).show();
                     }
                 });
         builder.show();
