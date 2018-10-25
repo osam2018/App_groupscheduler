@@ -152,13 +152,6 @@ public class PersonalScheduleActivity extends AppCompatActivity {
         dlg.execute();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        toolbar.setTitle(dateFormatForMonth.format(calendarView.getFirstDayOfCurrentMonth()));
-        // Set to current day on resume to set calendar to latest day
-        // toolbar.setTitle(dateFormatForMonth.format(new Date()));
-    }
 /*
 
     private void loadEvents() {
