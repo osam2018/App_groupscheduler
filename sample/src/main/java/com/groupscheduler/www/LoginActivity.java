@@ -20,8 +20,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
-import java.security.Key;
-
 /**
  * This application demos the use of the Firebase Login feature. It currently supports logging in
  * with Google, Facebook, Twitter, Email/Password, and Anonymous providers.
@@ -39,12 +37,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     FirebaseAuth firebaseAuth;
     Context login_context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         login_context = LoginActivity.this;
         /* Load the view and display it */
         setContentView(R.layout.login);
+
 
         email_et = findViewById(R.id.login_email);
         pw_et = findViewById(R.id.login_pw);

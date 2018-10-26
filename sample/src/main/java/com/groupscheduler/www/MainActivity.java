@@ -1,6 +1,5 @@
 package com.groupscheduler.www;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this,GroupScheduleActivity.class);
             i.putExtra("gid",groupScheduleArrayList.get(position).getGroupId());
             startActivity(i);
-            // TODO 노짬
         });
 
         myScheduleBtn.setOnClickListener(new View.OnClickListener() {

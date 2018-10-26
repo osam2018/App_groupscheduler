@@ -125,9 +125,6 @@ public class ScheduleDialog {
                     timestamp_str = String.valueOf(timestamp);
                     description_str = psn_title_et.getText().toString();
 
-                    // TODO 여기가 젤 중요해 Ang?  @USE color_code_str, timestamp_str,  description_str
-
-                    Log.d("SD", color_code_str+" ");
                     createfEventToFirebase(color_code_str, timestamp, description_str);
                     //Event e = new Event(Color.parseColor(color_code_str), timestamp, description_str);
                     //calendarView.addEvent(e);

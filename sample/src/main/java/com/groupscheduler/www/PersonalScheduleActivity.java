@@ -126,9 +126,13 @@ public class PersonalScheduleActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        ArrayList<String> datas = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                events.add(new Event(Color.parseColor(document.getString("color")), document.getDate("eventtime").getTime(),document.getString("spec")));
+                                datas.clear();
+                                datas.add(document.getString("spec"));
+                                datas.add(document.getId());
+                                events.add(new Event(Color.parseColor(document.getString("color")), document.getDate("eventtime").getTime(),datas));
                             }
                             calendarView.addEvents(events);
                         } else {

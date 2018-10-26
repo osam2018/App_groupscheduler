@@ -107,8 +107,8 @@ public class ScheduleListDialogListAdatper extends BaseAdapter {
         holder.delBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO 여기에 리스트 삭제 구문~~
-                createfEventToFirebase(list.getColor_code(), list.getTimestamp(), list.getDescription());
+                // TODO 여기에 리스트 삭제 구문 구현필요
+                //createfEventToFirebase(list.getColor_code(), list.getTimestamp(), list.getDescription());
                 remove(position);
                 notifyDataSetChanged();
                 // notifyDataSetChanged();
